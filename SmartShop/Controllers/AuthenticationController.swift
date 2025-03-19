@@ -12,7 +12,7 @@ struct AuthenticationController {
     let httpClient: HTTPClient
     
     func register(username: String, password: String) async throws -> RegisterResponse {
-        
+       
         let body = ["username": username, "password": password]
         let bodyData = try JSONEncoder().encode(body)
         
@@ -20,6 +20,14 @@ struct AuthenticationController {
         let response = try await httpClient.load(resource)
         
         return response
+    }
+    
+}
+
+extension AuthenticationController {
+    
+    static var development: AuthenticationController {
+        AuthenticationController(httpClient: HTTPClient())
     }
     
 }
