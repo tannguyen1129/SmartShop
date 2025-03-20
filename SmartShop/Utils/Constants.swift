@@ -10,5 +10,6 @@ import Foundation
 struct Constants {
     struct Urls {
         static let register: URL = URL(string: "http://127.0.0.1:8080/api/auth/register")!
+        static let login: URL = URL(string: "http://127.0.0.1:8080/api/auth/login")!
     }
 }
