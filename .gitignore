@@ -1,0 +1,33 @@
+# Bỏ qua thư mục build và derived data
+DerivedData/
+Build/
+
+# Bỏ qua file xcuserdata (lưu cài đặt cá nhân của Xcode)
+*.xcuserdatad/
+*.xcscmblueprint/
+
+# Bỏ qua file log
+*.log
+
+# Bỏ qua file tạm của macOS
+.DS_Store
+*.swp
+*.lock
+
+# Bỏ qua file dự án Xcode tự động tạo
+*.xcworkspace/
+xcuserdata/
+
+# Bỏ qua các thư viện được cài đặt bằng CocoaPods (nếu có)
+Pods/
+Podfile.lock
+
+# Bỏ qua Carthage (nếu sử dụng)
+Carthage/
+
+# Bỏ qua Swift Package Manager (SPM)
+.swiftpm/
+Package.resolved
+
+# Bỏ qua file môi trường
+.env
