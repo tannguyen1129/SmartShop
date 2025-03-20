@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		513747302D8BCC92004590CE /* JWTDecode in Frameworks */ = {isa = PBXBuildFile; productRef = 5137472F2D8BCC92004590CE /* JWTDecode */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		51717E8D2D8AA663005AC561 /* SmartShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				513747302D8BCC92004590CE /* JWTDecode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +62,7 @@
 			);
 			name = SmartShop;
 			packageProductDependencies = (
+				5137472F2D8BCC92004590CE /* JWTDecode */,
 			);
 			productName = SmartShop;
 			productReference = 51717E8D2D8AA663005AC561 /* SmartShop.app */;
@@ -86,6 +92,9 @@
 			);
 			mainGroup = 51B195C42D89666D00765E0C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5137472E2D8BCC92004590CE /* XCRemoteSwiftPackageReference "JWTDecode" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 51B195C42D89666D00765E0C;
 			projectDirPath = "";
@@ -314,6 +323,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5137472E2D8BCC92004590CE /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5137472F2D8BCC92004590CE /* JWTDecode */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5137472E2D8BCC92004590CE /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			productName = JWTDecode;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 51B195C52D89666D00765E0C /* Project object */;
 }

@@ -10,38 +10,46 @@ import SwiftUI
 struct LoginScreen: View {
     
     @Environment(\.authenticationController) private var authenticationController
-    @Environment(\.dismiss) private var dismiss
     
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var message: String = ""
+    @State private var isLoading: Bool = false
     
     @AppStorage("userId") private var userId: Int?
+    
+    @State private var showRegistration = false // Khai báo biến showRegistration
     
     private var isFormValid: Bool {
         !username.isEmptyOrWhitespace && !password.isEmptyOrWhitespace
     }
     
     private func login() async {
-
+        isLoading = true
+        
         do {
-            
             let response = try await authenticationController.login(username: username, password: password)
             
             guard let token = response.token,
-                  let userId = response,userId, response.success else {
+                  let userId = response.userId, response.success else {
                 message = response.message ?? "Request cannot be completed."
                 return
             }
             
-            //set userId in user defaults
+            // Set the token in Keychain
+            Keychain.set(token, forKey: "jwttoken")
+            
+            // Set userId in user defaults
             self.userId = userId
             
         } catch {
-            message = error.localizedDescription
+            message = "Failed to decode response: \(error.localizedDescription)"
         }
         
         isLoading = false
+        
+        username = ""
+        password = ""
     }
     
     var body: some View {
@@ -50,7 +58,7 @@ struct LoginScreen: View {
             Section {
                 HStack {
                     Spacer()
-                    Image(systemName: "person.badge.plus")
+                    Image(systemName: "person.circle")
                         .font(.system(size: 60))
                         .foregroundColor(.blue)
                         .padding(.vertical, 20)
@@ -59,8 +67,8 @@ struct LoginScreen: View {
                 .listRowBackground(Color.clear)
             }
             
-            // Mục thông tin tài khoản
-            Section(header: Text("THÔNG TIN TÀI KHOẢN")) {
+            // Mục thông tin đăng nhập
+            Section(header: Text("THÔNG TIN ĐĂNG NHẬP")) {
                 HStack {
                     Image(systemName: "person")
                         .foregroundColor(.gray)
@@ -82,7 +90,7 @@ struct LoginScreen: View {
                 }
             }
             
-            // Nút đăng ký
+            // Nút đăng nhập
             Section {
                 Button {
                     Task {
@@ -127,14 +135,14 @@ struct LoginScreen: View {
                 .listRowBackground(Color.clear)
             }
             
-            // Liên kết đăng nhập
+            // Liên kết đăng ký
             Section {
                 HStack {
                     Spacer()
-                    Text("Bạn chưa có tài khoản?")
+                    Text("Chưa có tài khoản?")
                         .foregroundColor(.gray)
                     Button("Đăng ký") {
-                        dismiss()
+                        showRegistration = true
                     }
                     .foregroundColor(.blue)
                     .fontWeight(.semibold)
@@ -143,14 +151,23 @@ struct LoginScreen: View {
             }
             .listRowBackground(Color.clear)
         }
-        .navigationTitle("Đăng Ký")
+        .fullScreenCover(isPresented: $showRegistration) {
+            RegistrationScreen()
+        }
+        .navigationDestination(item: $userId, destination: { _ in
+            Text("Home Screen")
+        })
+        
+        .navigationTitle("Đăng nhập")
         .scrollContentBackground(.hidden)
         .background(Color(UIColor.systemGroupedBackground))
     }
 }
+
 
 #Preview {
     NavigationStack {
         LoginScreen()
     }.environment(\.authenticationController, .development)
 }
+

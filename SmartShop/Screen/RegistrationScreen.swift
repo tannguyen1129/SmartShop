@@ -16,6 +16,7 @@ struct RegistrationScreen: View {
     @State private var password: String = ""
     @State private var message: String = ""
     @State private var isLoading: Bool = false
+    @State private var showLogin = false
     
     private var isFormValid: Bool {
         !username.isEmptyOrWhitespace && !password.isEmptyOrWhitespace
@@ -56,7 +57,9 @@ struct RegistrationScreen: View {
             }
             
             // Mục thông tin tài khoản
-            Section(header: Text("THÔNG TIN TÀI KHOẢN")) {
+            Section(header: Text("THÔNG TIN TÀI KHOẢN")
+                        .font(.headline)
+                        .foregroundColor(.blue)) {
                 HStack {
                     Image(systemName: "person")
                         .foregroundColor(.gray)
@@ -91,9 +94,13 @@ struct RegistrationScreen: View {
                             ProgressView()
                                 .tint(.white)
                         } else {
-                            Text("Đăng ký")
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                            HStack {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.white)
+                                Text("Đăng ký")
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                            }
                         }
                         Spacer()
                     }
@@ -130,7 +137,7 @@ struct RegistrationScreen: View {
                     Text("Đã có tài khoản?")
                         .foregroundColor(.gray)
                     Button("Đăng nhập") {
-                        dismiss()
+                        showLogin = true
                     }
                     .foregroundColor(.blue)
                     .fontWeight(.semibold)
@@ -139,7 +146,10 @@ struct RegistrationScreen: View {
             }
             .listRowBackground(Color.clear)
         }
-        .navigationTitle("Đăng Ký")
+        .fullScreenCover(isPresented: $showLogin) {
+            LoginScreen()
+        }
+        .navigationTitle("Đăng ký")
         .scrollContentBackground(.hidden)
         .background(Color(UIColor.systemGroupedBackground))
     }
@@ -150,5 +160,3 @@ struct RegistrationScreen: View {
         RegistrationScreen()
     }.environment(\.authenticationController, .development)
 }
-
-
