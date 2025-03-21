@@ -70,4 +70,5 @@ struct HomeScreen: View {
 
 #Preview {
     HomeScreen()
+        .environment(ProductStore(httpClient: .development))
 }
