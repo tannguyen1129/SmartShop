@@ -22,7 +22,7 @@ struct AuthenticationController {
         return response
     }
     
-    func login(username:String, password: String) async throws -> LoginResponse {
+    func login(username: String, password: String) async throws -> LoginResponse {
         
         let body = ["username": username, "password": password]
         let bodyData = try JSONEncoder().encode(body)

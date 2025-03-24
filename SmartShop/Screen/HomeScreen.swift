@@ -32,22 +32,29 @@ extension AppScreen {
         }
     }
     
+    @MainActor
     @ViewBuilder
     var destination: some View {
         switch self {
             case .home:
-                ProductListScreen()
+                NavigationStack {
+                    ProductListScreen()
+                }
             case .myProducts:
                 NavigationStack {
-                    Text("My Products")
+                    MyProductListScreen()
                         .requiresAuthentication()
                 }
             case .cart:
-                Text("Cart")
-                    .requiresAuthentication()
+                NavigationStack {
+                    CartScreen()
+                        .requiresAuthentication()
+                }
             case .profile:
-               ProfileScreen()
-                    .requiresAuthentication()
+                NavigationStack {
+                    ProfileScreen()
+                        .requiresAuthentication()
+                }
         }
     }
     
@@ -56,6 +63,7 @@ extension AppScreen {
 struct HomeScreen: View {
     
     @State var selection: AppScreen?
+    @Environment(CartStore.self) private var cartStore
     
     var body: some View {
         TabView(selection: $selection) {
@@ -63,12 +71,15 @@ struct HomeScreen: View {
                 screen.destination
                     .tag(screen as AppScreen?)
                     .tabItem { screen.label }
+                    .badge((screen as AppScreen?) == .cart ? cartStore.cart?.itemsCount ?? 0: 0)
             }
         }
     }
 }
 
 #Preview {
+    
     HomeScreen()
         .environment(ProductStore(httpClient: .development))
+        .environment(CartStore(httpClient: .development))
 }
